@@ -5,12 +5,15 @@
 package com.mycompany.tarea2poo;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import java.awt.Dialog.ModalityType;
 
 /**
@@ -18,8 +21,6 @@ import java.awt.Dialog.ModalityType;
  * @author vascl
  */
 public class ServicioCliente extends javax.swing.JFrame {
-
-    
 
     private Conexion connect;
 
@@ -237,14 +238,34 @@ public class ServicioCliente extends javax.swing.JFrame {
         String codigoCliente_ = (String) jTableFacturas.getValueAt(fila, 1);
         String idOrdenTrabajo_ = (String) jTableFacturas.getValueAt(fila, 2);
 
-        System.out.println("idFactura: " + idFactura_);
-        System.out.println("codigoCliente: " + codigoCliente_);
-        System.out.println("idOrdenTrabajo: " + idOrdenTrabajo_);
-
-
-        CrearVentaServicio dialog = new CrearVentaServicio(this,true,idFactura_, codigoCliente_, idOrdenTrabajo_,"Servicio",this.connect);
+        CrearVentaServicio dialog = new CrearVentaServicio(this, true, idFactura_, codigoCliente_, idOrdenTrabajo_,
+                "Servicio", this.connect);
         dialog.setModalityType(ModalityType.APPLICATION_MODAL);
         dialog.setVisible(true);
+
+        TableModel DataParaFactura = dialog.getModel();
+
+        if (DataParaFactura.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No se ha creado el servicio");
+            return;
+        }
+
+        int idServicio;
+
+        Connection conn = connect.getCnx();
+
+        for (int i = 0; i < DataParaFactura.getRowCount(); i++) {
+            idServicio = (int) DataParaFactura.getValueAt(i, 0);
+            String query = "INSERT INTO detallefactura (IdFactura, CodigoProducto, Cantidad, IdServicio) VALUES (?, NULL , NULL , ?)";
+            try {
+                PreparedStatement pst = conn.prepareStatement(query);
+                pst.setInt(1, idFactura_);
+                pst.setInt(2, idServicio);
+                pst.executeUpdate();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "ErrorSQL " + e.getMessage());
+            }
+        }
 
     }// GEN-LAST:event_jButtonCrearServicioActionPerformed
 
@@ -303,7 +324,15 @@ public class ServicioCliente extends javax.swing.JFrame {
     }// GEN-LAST:event_jComboBoxClienteActionPerformed
 
     private void jButtonDetalleFacturaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonDetalleFacturaActionPerformed
-        // TODO add your handling code here:
+        int fila = jTableFacturas.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione una factura");
+            return;
+        }
+
+        int idFactura_ = (int) jTableFacturas.getValueAt(fila, 0);
+        DetalleFactura detalleFactura = new DetalleFactura(idFactura_, this.CodigoCliente);
+        detalleFactura.setVisible(true);
 
     }// GEN-LAST:event_jButtonDetalleFacturaActionPerformed
 
@@ -319,16 +348,47 @@ public class ServicioCliente extends javax.swing.JFrame {
         String codigoCliente_ = (String) jTableFacturas.getValueAt(fila, 1);
         String idOrdenTrabajo_ = (String) jTableFacturas.getValueAt(fila, 2);
 
-        System.out.println("idFactura: " + idFactura_);
-        System.out.println("codigoCliente: " + codigoCliente_);
-        System.out.println("idOrdenTrabajo: " + idOrdenTrabajo_);
-
-
-        CrearVentaServicio dialog = new CrearVentaServicio(this,true,idFactura_, codigoCliente_, idOrdenTrabajo_,"Venta",this.connect);
+        CrearVentaServicio dialog = new CrearVentaServicio(this, true, idFactura_, codigoCliente_, idOrdenTrabajo_,
+                "Venta", this.connect);
         dialog.setModalityType(ModalityType.APPLICATION_MODAL);
         dialog.setVisible(true);
 
- 
+        TableModel DataParaFactura = dialog.getModel();
+
+        if (DataParaFactura.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No se creo la factura");
+            return;
+        }
+
+        Connection conn = connect.getCnx();
+
+        int codigoProducto, cantidad;
+
+        for (int i = 0; i < DataParaFactura.getRowCount(); i++) {
+            codigoProducto = (int) DataParaFactura.getValueAt(i, 0);
+            cantidad = (int) DataParaFactura.getValueAt(i, 3);
+            String query = "INSERT INTO detallefactura (IdFactura, CodigoProducto, Cantidad, IdServicio) VALUES (?, ?, ?, NULL)";
+
+            try {
+                PreparedStatement preparedStmt = conn.prepareStatement(query);
+                preparedStmt.setInt(1, idFactura_);
+                preparedStmt.setInt(2, codigoProducto);
+                preparedStmt.setInt(3, cantidad);
+                preparedStmt.executeUpdate();
+
+                query = "UPDATE inventario SET Existencia = Existencia - ? WHERE CodigoProducto = ?";
+                preparedStmt = conn.prepareStatement(query);
+
+                preparedStmt.setInt(1, cantidad);
+                preparedStmt.setInt(2, codigoProducto);
+
+                preparedStmt.executeUpdate();
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "ErrorSQL " + e.getMessage());
+            }
+
+        }
 
     }// GEN-LAST:event_jButtonCrearVentaActionPerformed
 
