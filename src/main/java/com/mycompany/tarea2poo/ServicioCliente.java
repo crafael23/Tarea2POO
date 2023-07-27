@@ -11,12 +11,15 @@ import java.sql.Statement;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Dialog.ModalityType;
 
 /**
  *
  * @author vascl
  */
 public class ServicioCliente extends javax.swing.JFrame {
+
+    
 
     private Conexion connect;
 
@@ -224,7 +227,25 @@ public class ServicioCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCrearServicioActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCrearServicioActionPerformed
-        // TODO add your handling code here:
+        int fila = jTableFacturas.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione una factura");
+            return;
+        }
+
+        int idFactura_ = (int) jTableFacturas.getValueAt(fila, 0);
+        String codigoCliente_ = (String) jTableFacturas.getValueAt(fila, 1);
+        String idOrdenTrabajo_ = (String) jTableFacturas.getValueAt(fila, 2);
+
+        System.out.println("idFactura: " + idFactura_);
+        System.out.println("codigoCliente: " + codigoCliente_);
+        System.out.println("idOrdenTrabajo: " + idOrdenTrabajo_);
+
+
+        CrearVentaServicio dialog = new CrearVentaServicio(this,true,idFactura_, codigoCliente_, idOrdenTrabajo_,"Servicio",this.connect);
+        dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+        dialog.setVisible(true);
+
     }// GEN-LAST:event_jButtonCrearServicioActionPerformed
 
     private void jButtonCrearInteraccionActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCrearInteraccionActionPerformed
@@ -289,12 +310,25 @@ public class ServicioCliente extends javax.swing.JFrame {
     private void jButtonCrearVentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCrearVentaActionPerformed
 
         int fila = jTableFacturas.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Seleccione una factura");
+            return;
+        }
 
         int idFactura_ = (int) jTableFacturas.getValueAt(fila, 0);
-        String codigoCliente_= (String) jTableFacturas.getValueAt(fila, 1);
+        String codigoCliente_ = (String) jTableFacturas.getValueAt(fila, 1);
         String idOrdenTrabajo_ = (String) jTableFacturas.getValueAt(fila, 2);
 
-        
+        System.out.println("idFactura: " + idFactura_);
+        System.out.println("codigoCliente: " + codigoCliente_);
+        System.out.println("idOrdenTrabajo: " + idOrdenTrabajo_);
+
+
+        CrearVentaServicio dialog = new CrearVentaServicio(this,true,idFactura_, codigoCliente_, idOrdenTrabajo_,"Venta",this.connect);
+        dialog.setModalityType(ModalityType.APPLICATION_MODAL);
+        dialog.setVisible(true);
+
+ 
 
     }// GEN-LAST:event_jButtonCrearVentaActionPerformed
 
