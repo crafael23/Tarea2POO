@@ -271,7 +271,7 @@ public class ServicioCliente extends javax.swing.JFrame {
 
     private void jButtonCrearInteraccionActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCrearInteraccionActionPerformed
 
-        Connection conn = connect.getCnx();
+        /*Connection conn = connect.getCnx();
 
         try {
             int idOrdenTrabajo = 0;
@@ -287,7 +287,11 @@ public class ServicioCliente extends javax.swing.JFrame {
             obtenerFacturas();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ErrorSQL " + e.getMessage());
-        }
+        }*/
+        
+        OrdenTrabajo ot = new OrdenTrabajo(this.CodigoCliente);
+        ot.setVisible(true);
+        this.obtenerFacturas();
 
     }// GEN-LAST:event_jButtonCrearInteraccionActionPerformed
 

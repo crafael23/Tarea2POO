@@ -1,7 +1,3 @@
-    /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.tarea2poo;
 
 import java.sql.Connection;
@@ -21,13 +17,20 @@ public class OrdenTrabajo extends javax.swing.JFrame {
     Conexion connect;
     
     private int codigoempleado = 0;
-    
+    private int idcliente = 0;
     public OrdenTrabajo() {
         initComponents();
         connect = new Conexion();
         Update_EmployeeCombo();
     }
 
+    public OrdenTrabajo(int _idcliente)
+    {
+        this.idcliente = _idcliente;
+        initComponents();
+        connect = new Conexion();
+        Update_EmployeeCombo();
+    }
     
     private void Update_EmployeeCombo()
     {
@@ -37,11 +40,12 @@ public class OrdenTrabajo extends javax.swing.JFrame {
           Connection cnn = connect.getCnx();
           Statement stm = cnn.createStatement();
           ResultSet rs = stm.executeQuery(sql);
-            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+          DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
 
-            model.addElement("Seleccione un empleado");
-
-            while (rs.next()) {
+          model.addElement("Seleccione un empleado");
+          
+            while (rs.next()) 
+            {
                 int CodigoCliente_ = rs.getInt("CodigoEmpleado");
                 String nombre = rs.getString("Nombre");
                 String telefono = rs.getString("telefono");
@@ -161,12 +165,42 @@ public class OrdenTrabajo extends javax.swing.JFrame {
           pst.setInt(1, this.codigoempleado);
           pst.setString(2, observacion);
           pst.executeUpdate();
-          this.dispose();
         } 
         catch (Exception e)
         {
             JOptionPane.showMessageDialog(null, "ErrorSQL " + e.getMessage());
         }
+        
+        if(this.idcliente > 0)
+        {
+            String query = "SELECT IdOrdenTrabajo from Ordendetrabajo where observaciones = '"+ observacion +"' order by IdOrdenTrabajo desc Limit 1";
+            try 
+            {
+              Statement stm = cnn.createStatement();
+              ResultSet rs = stm.executeQuery(query);
+              int id = 0;
+              if(rs.next())
+              {
+                  id = rs.getInt("IdOrdenTrabajo");
+              }
+              if(id > 0)
+              {
+                String factura = "INSERT into Facturas (CodigoCliente, IdOrdenTrabajo) Values(?,?)";
+                PreparedStatement ps = cnn.prepareStatement(factura);
+                ps.setInt(1, this.idcliente);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+                cnn.close();
+                this.setVisible(false);
+              }
+            } 
+            catch (Exception e)
+            {
+                JOptionPane.showMessageDialog(null, "ErrorSQL " + e.getMessage());
+            }
+            
+        }
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void combo_empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_empleadoActionPerformed
