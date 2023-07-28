@@ -20,7 +20,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import com.mysql.cj.xdevapi.Table;
 
 /**
  *
