@@ -1,7 +1,9 @@
 
 package com.mycompany.tarea2poo;
 
+import java.awt.HeadlessException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,214 +17,219 @@ import javax.swing.table.DefaultTableModel;
 public class AdicionEdicion extends javax.swing.JFrame {
 
     Conexion connect;
-    
+
     public AdicionEdicion() {
         initComponents();
         connect = new Conexion();
     }
-    
-    public void mostrarOrdenDeTrabajo(){
-       try{
+
+    public void mostrarOrdenDeTrabajo() {
+        try {
             Connection conn = connect.getCnx();
             String sql = "Select * from ordendetrabajo";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            
+
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("IdOrdenTrabajo");
             model.addColumn("CodigoEmpleado");
             model.addColumn("Observaciones");
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 int IdOrdenTrabajo = rs.getInt("IdOrdenTrabajo");
                 int CodigoEmpleado = rs.getInt("CodigoEmpleado");
                 String Observaciones = rs.getString("Observaciones");
-                model.addRow(new Object[]{IdOrdenTrabajo, CodigoEmpleado, Observaciones});
+                model.addRow(new Object[] { IdOrdenTrabajo, CodigoEmpleado, Observaciones });
             }
             Consulta.setModel(model);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro retrievin cliente: " + e.getMessage());
         }
     }
-    
-    public void mostrarClientes(){
-        try{
+
+    public void mostrarClientes() {
+        try {
             Connection conn = connect.getCnx();
             String sql = "Select * from cliente";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            
+
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("CodigoCliente");
             model.addColumn("Nombre");
             model.addColumn("Telefono");
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 int CodCliente = rs.getInt("CodigoCliente");
                 String NombreCliente = rs.getString("Nombre");
                 String Telefono = rs.getString("Telefono");
-                model.addRow(new Object[]{CodCliente, NombreCliente, Telefono});
+                model.addRow(new Object[] { CodCliente, NombreCliente, Telefono });
             }
             Consulta.setModel(model);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro retrievin cliente: " + e.getMessage());
         }
     }
-    
-    public void mostrarDetalleFactura(){
-        try{
+
+    public void mostrarDetalleFactura() {
+        try {
             Connection conn = connect.getCnx();
             String sql = "Select * from detallefactura";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            
+
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("Id");
             model.addColumn("IdFactura");
             model.addColumn("CodigoProducto");
             model.addColumn("Cantidad");
             model.addColumn("IdServicio");
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 int Id = rs.getInt("Id");
                 int IdFactura = rs.getInt("IdFactura");
                 int CodProducto = rs.getInt("CodigoProducto");
                 int Cantidad = rs.getInt("Cantidad");
                 int CodServicio = rs.getInt("IdServicio");
-                model.addRow(new Object[]{Id, IdFactura, CodProducto, Cantidad, CodServicio});
+                model.addRow(new Object[] { Id, IdFactura, CodProducto, Cantidad, CodServicio });
             }
             Consulta.setModel(model);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro retrievin detallefactura: " + e.getMessage());
         }
     }
-    
-    public void mostrarInventario(){
-        try{
+
+    public void mostrarInventario() {
+        try {
             Connection conn = connect.getCnx();
             String sql = "Select * from inventario";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            
+
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("CodigoProducto");
             model.addColumn("NombreDeProducto");
             model.addColumn("CodigoProveedor");
             model.addColumn("PrecioVenta");
             model.addColumn("Existencia");
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 int CodProdcuto = rs.getInt("CodigoProducto");
                 String Producto = rs.getString("NombreDeproducto");
                 int CodProveedor = rs.getInt("CodigoProveedor");
                 int PrecioVenta = rs.getInt("PrecioVenta");
                 int Existencia = rs.getInt("Existencia");
-                model.addRow(new Object[]{CodProdcuto, Producto, CodProveedor, PrecioVenta, Existencia});
+                model.addRow(new Object[] { CodProdcuto, Producto, CodProveedor, PrecioVenta, Existencia });
             }
             Consulta.setModel(model);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro retrievin inventario: " + e.getMessage());
         }
     }
-    
-    public void mostrarServicio(){
-        try{
+
+    public void mostrarServicio() {
+        try {
             Connection conn = connect.getCnx();
             String sql = "Select * from servicio";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            
+
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("idServicio");
             model.addColumn("Nombre");
             model.addColumn("Precio");
-                        
-            while(rs.next()){
+            model.addColumn("Disponible");
+
+            while (rs.next()) {
                 int IdServicio = rs.getInt("idServicio");
                 String Nombre = rs.getString("Nombre");
                 int Precio = rs.getInt("Precio");
+                int Disponible = rs.getInt("Disponible");
 
-                model.addRow(new Object[]{IdServicio, Nombre, Precio});
+                model.addRow(new Object[] { IdServicio, Nombre, Precio, Disponible });
             }
             Consulta.setModel(model);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro retrievin servicio: " + e.getMessage());
         }
     }
-    
-    public void mostrarFactura(){
-        try{
+
+    public void mostrarFactura() {
+        try {
             Connection conn = connect.getCnx();
             String sql = "Select * from facturas";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            
+
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("idFactura");
             model.addColumn("CodigoCliente");
             model.addColumn("IdOrdenTrabajo");
-                       
-            while(rs.next()){
+
+            while (rs.next()) {
                 int idFactura = rs.getInt("idFactura");
                 int CodigoCliente = rs.getInt("CodigoCliente");
                 int IdOrdenTrabajo = rs.getInt("IdOrdenTrabajo");
-                
-                model.addRow(new Object[]{idFactura, CodigoCliente, IdOrdenTrabajo});
+
+                model.addRow(new Object[] { idFactura, CodigoCliente, IdOrdenTrabajo });
             }
             Consulta.setModel(model);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro retrievin facturas: " + e.getMessage());
         }
     }
-    
-    public void mostrarEmpleado(){
-        try{
+
+    public void mostrarEmpleado() {
+        try {
             Connection conn = connect.getCnx();
             String sql = "Select * from empleado";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            
+
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("CodigoEmpleado");
             model.addColumn("Nombre");
             model.addColumn("Cargo");
             model.addColumn("Telefono");
-                        
-            while(rs.next()){
+            model.addColumn("Inactivo");
+
+            while (rs.next()) {
                 int CodEmpleado = rs.getInt("CodigoEmpleado");
                 String Nombre = rs.getString("Nombre");
                 String Cargo = rs.getString("Cargo");
                 String Telefono = rs.getString("Telefono");
-                model.addRow(new Object[]{CodEmpleado, Nombre, Cargo, Telefono});
+                int Inactivo = rs.getInt("Inactivo");
+                model.addRow(new Object[] { CodEmpleado, Nombre, Cargo, Telefono, Inactivo });
             }
-            Consulta.setModel(model);            
-        }catch(SQLException e){
+            Consulta.setModel(model);
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro retrievin empleado: " + e.getMessage());
         }
     }
-    public void mostrarProveedor(){
-        try{
+
+    public void mostrarProveedor() {
+        try {
             Connection conn = connect.getCnx();
             String sql = "Select * from proveedor";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            
+
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("CodigoProveedor");
             model.addColumn("Nombre");
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 int CodProveedor = rs.getInt("CodigoProveedor");
                 String Nombre = rs.getString("Nombre");
-                model.addRow(new Object[]{CodProveedor, Nombre});
+                model.addRow(new Object[] { CodProveedor, Nombre });
             }
-            Consulta.setModel(model);                      
-        }catch(SQLException e){
+            Consulta.setModel(model);
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro retrievin proveedor: " + e.getMessage());
         }
     }
-    
-    public void seleccion(){
+
+    public void seleccion() {
         String seleccion = jComboBox1.getSelectedItem().toString();
         switch (seleccion) {
             case "Orden de Trabajo":
@@ -240,86 +247,213 @@ public class AdicionEdicion extends javax.swing.JFrame {
             case "Inventario":
                 mostrarInventario();
                 break;
-            case "Proveedor":        
+            case "Proveedor":
                 mostrarProveedor();
                 break;
             case "Empleado":
-                mostrarEmpleado();                
+                mostrarEmpleado();
                 break;
             case "Servicio":
                 mostrarServicio();
                 break;
             default:
-                JOptionPane.showMessageDialog(null, "Ocurrio un problema.");
+                JOptionPane.showMessageDialog(null, "Seleccione una una de las opciones");
                 break;
         }
-        
+
     }
-   public void eliminar(){
-        try{
+
+    public void eliminar() {
+        try {
             Connection conn = connect.getCnx();
             String sql;
             Statement stm;
-            ResultSet rs;
             String seleccion = jComboBox1.getSelectedItem().toString();
             int fila = Consulta.getSelectedRow();
-            String valor = Consulta.getValueAt(fila, 0).toString();            
-        switch (seleccion) {
-            case "Orden de Trabajo":                
-                sql = "Delete from ordendetrabajo where IdOrdenTrabajo = '" + valor + "'";
-                stm = conn.prepareStatement(sql);
-                stm.executeUpdate(sql);
-                mostrarOrdenDeTrabajo();            
-                break;
-            case "Cliente":
-                break;
-            case "Detalle Factura":
-                sql = "Delete from detallefactura where id = '" + valor + "'";
-                stm = conn.prepareStatement(sql);
-                stm.executeUpdate(sql);
-                mostrarOrdenDeTrabajo();
-                break;
-            case "Factura":
-                sql = "Delete from facturas where idFactura = '" + valor + "'";
-                stm = conn.prepareStatement(sql);
-                stm.executeUpdate(sql);
-                mostrarOrdenDeTrabajo();
-                break;
-            case "Inventario":
-                sql = "Delete from inventario where CodigoProducto = '" + valor + "'";
-                stm = conn.prepareStatement(sql);
-                stm.executeUpdate(sql);
-                mostrarOrdenDeTrabajo();
-                break;
-            case "Proveedor":        
-                sql = "Delete from probeedor where CodigoProveedor = '" + valor + "'";
-                stm = conn.prepareStatement(sql);
-                stm.executeUpdate(sql);
-                mostrarOrdenDeTrabajo();
-                break;
-            case "Empleado":
-                sql = "Delete from empleado where CodigoEmpleado = '" + valor + "'";
-                stm = conn.prepareStatement(sql);
-                stm.executeUpdate(sql);
-                mostrarOrdenDeTrabajo();                
-                break;
-            case "Servicio":
-                
-                break;
-            default:
-                break;
+            String valor = Consulta.getValueAt(fila, 0).toString();
+            switch (seleccion) {
+                case "Orden de Trabajo" -> {
+                    sql = "Delete from ordendetrabajo where IdOrdenTrabajo = '" + valor + "'";
+                    stm = conn.prepareStatement(sql);
+                    stm.executeUpdate(sql);
+                    mostrarOrdenDeTrabajo();
+                }
+                case "Cliente" -> {
+                    sql = "Delete from detallefactura where id = '" + valor + "'";
+                    stm = conn.prepareStatement(sql);
+                    stm.executeUpdate(sql);
+                    mostrarClientes();
+                }
+                case "Detalle Factura" -> {
+                    sql = "Delete from detallefactura where id = '" + valor + "'";
+                    stm = conn.prepareStatement(sql);
+                    stm.executeUpdate(sql);
+                    mostrarDetalleFactura();
+                }
+                case "Factura" -> {
+                    sql = "Delete from facturas where idFactura = '" + valor + "'";
+                    stm = conn.prepareStatement(sql);
+                    stm.executeUpdate(sql);
+                    mostrarFactura();
+                }
+                case "Inventario" -> {
+                    sql = "Delete from inventario where CodigoProducto = '" + valor + "'";
+                    stm = conn.prepareStatement(sql);
+                    stm.executeUpdate(sql);
+                    mostrarInventario();
+                }
+                case "Proveedor" -> {
+                    sql = "Delete from proveedor where CodigoProveedor = '" + valor + "'";
+                    stm = conn.prepareStatement(sql);
+                    stm.executeUpdate(sql);
+                    mostrarProveedor();
+                }
+                case "Empleado" -> {
+                    sql = "Delete from empleado where CodigoEmpleado = '" + valor + "'";
+                    stm = conn.prepareStatement(sql);
+                    stm.executeUpdate(sql);
+                    mostrarEmpleado();
+                }
+                case "Servicio" -> {
+                }
+                default -> {
+                }
             }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,"Ocurrio un error SQL: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocurrio un error SQL: " + e.getMessage());
         }
+
+    }
     
-   }
+    public void modificar() {
+        try {
+            String seleccion = jComboBox1.getSelectedItem().toString();
+            Connection conn = connect.getCnx();
+            PreparedStatement stm;
+            int fila = Consulta.getSelectedRow();
+            switch (seleccion) {
+                case "Orden de Trabajo":
+                    int IdOrdenTrabajo = Integer.parseInt(Consulta.getValueAt(fila, 0).toString());
+                    int ColumnCodEmple = Integer.parseInt(Consulta.getValueAt(fila, 1).toString());
+                    String ColumnObs = Consulta.getValueAt(fila, 2).toString();
+
+                    stm = conn.prepareStatement("Update ordendetrabajo set CodigoEmpleado = '" + ColumnCodEmple
+                            + "', Observaciones = '" + ColumnObs + "'where IdOrdenTrabajo = '" + IdOrdenTrabajo + "'");
+                    stm.executeUpdate();
+                    mostrarOrdenDeTrabajo();
+                    JOptionPane.showMessageDialog(null, "El registro fue editado.");
+
+                    break;
+                case "Cliente":
+                    int CodigoCliente = Integer.parseInt(Consulta.getValueAt(fila, 0).toString());
+                    String Nombre = Consulta.getValueAt(fila, 1).toString();
+                    String Telefono = Consulta.getValueAt(fila, 2).toString();
+
+                    stm = conn.prepareStatement("Update cliente set Nombre = '" + Nombre + "', Telefono = '" + Telefono
+                            + "'where CodigoCliente = '" + CodigoCliente + "'");
+                    stm.executeUpdate();
+                    mostrarClientes();
+                    JOptionPane.showMessageDialog(null, "El registro fue editado.");
+                    break;
+                case "Detalle Factura":
+                    int id = Integer.parseInt(Consulta.getValueAt(fila, 0).toString());
+                    int idFactura = Integer.parseInt(Consulta.getValueAt(fila, 1).toString());
+                    int CodigoProducto = Integer.parseInt(Consulta.getValueAt(fila, 2).toString());
+                    int Cantidad = Integer.parseInt(Consulta.getValueAt(fila, 3).toString());
+                    int IdServicio = Integer.parseInt(Consulta.getValueAt(fila, 4).toString());
+
+                    if (CodigoProducto != 0) {
+                        System.out.println("Es un producto");
+                        stm = conn.prepareStatement("Update detallefactura set CodigoProducto = '" + CodigoProducto
+                                + "', Cantidad = '" + Cantidad + "' where id = '" + id + "'");
+                        stm.executeUpdate();
+                    } else if (IdServicio != 0) {
+                        System.out.println("Es un servicio");
+                        stm = conn.prepareStatement(
+                                "Update detallefactura set IdServicio = '" + IdServicio + "' where id = '" + id + "'");
+                        stm.executeUpdate();
+                    }
+
+                    mostrarDetalleFactura();
+                    JOptionPane.showMessageDialog(null, "El registro fue editado.");
+                    break;
+                case "Factura":
+                    idFactura = Integer.parseInt(Consulta.getValueAt(fila, 0).toString());
+                    CodigoCliente = Integer.parseInt(Consulta.getValueAt(fila, 1).toString());
+                    IdOrdenTrabajo = Integer.parseInt(Consulta.getValueAt(fila, 2).toString());
+
+                    stm = conn.prepareStatement("Update facturas set CodigoCliente = '" + CodigoCliente
+                            + "' where idFactura = '" + idFactura + "'");
+                    stm.executeUpdate();
+                    mostrarFactura();
+                    JOptionPane.showMessageDialog(null, "El registro fue editado.");
+                    break;
+                case "Inventario":
+                    CodigoProducto = Integer.parseInt(Consulta.getValueAt(fila, 0).toString());
+                    int CodigoProveedor = Integer.parseInt(Consulta.getValueAt(fila, 2).toString());
+                    String NombreProducto = Consulta.getValueAt(fila, 1).toString();
+                    float PrecioVenta = Float.parseFloat(Consulta.getValueAt(fila, 3).toString());
+                    int Existencia = Integer.parseInt(Consulta.getValueAt(fila, 4).toString());
+
+                    stm = conn.prepareStatement("Update inventario set CodigoProveedor = '" + CodigoProveedor
+                            + "', NombreDeProducto = '" + NombreProducto + "', PrecioVenta = '" + PrecioVenta
+                            + "', Existencia = '" + Existencia + "' where CodigoProducto = '" + CodigoProducto + "'");
+                    stm.executeUpdate();
+                    mostrarInventario();
+                    JOptionPane.showMessageDialog(null, "El registro fue editado.");
+                    break;
+                case "Proveedor":
+                    CodigoProveedor = Integer.parseInt(Consulta.getValueAt(fila, 0).toString());
+                    Nombre = Consulta.getValueAt(fila, 1).toString();
+
+                    stm = conn.prepareStatement("Update proveedor set Nombre = '" + Nombre
+                            + "' where CodigoProveedor = '" + CodigoProveedor + "'");
+                    stm.executeUpdate();
+                    mostrarProveedor();
+                    JOptionPane.showMessageDialog(null, "El registro fue editado.");
+                    break;
+                case "Empleado":
+                    int CodigoEmpleado = Integer.parseInt(Consulta.getValueAt(fila, 0).toString());
+                    Nombre = Consulta.getValueAt(fila, 1).toString();
+                    String Cargo = Consulta.getValueAt(fila, 2).toString();
+                    Telefono = Consulta.getValueAt(fila, 3).toString();
+                    int Inactivo = Integer.parseInt(Consulta.getValueAt(fila, 4).toString());
+
+                    stm = conn.prepareStatement("Update empleado set Nombre = '" + Nombre + "', Cargo = '" + Cargo
+                            + "', Telefono = '" + Telefono + "', Inactivo = '" + Inactivo + "' where CodigoEmpleado = '"
+                            + CodigoEmpleado + "'");
+                    stm.executeUpdate();
+                    mostrarEmpleado();
+                    JOptionPane.showMessageDialog(null, "El registro fue editado.");
+                    break;
+                case "Servicio":
+                    IdServicio = Integer.parseInt(Consulta.getValueAt(fila, 0).toString());
+                    Nombre = Consulta.getValueAt(fila, 1).toString();
+                    float Precio = Float.parseFloat(Consulta.getValueAt(fila, 2).toString());
+                    int Disponible = Integer.parseInt(Consulta.getValueAt(fila, 3).toString());
+
+                    stm = conn.prepareStatement("Update servicio set Nombre = '" + Nombre + "', Precio = '" + Precio
+                            + "', Disponible = '" + Disponible + "' where idServicio = '" + IdServicio + "'");
+                    stm.executeUpdate();
+                    mostrarServicio();
+                    JOptionPane.showMessageDialog(null, "El registro fue editado.");
+                    break;
+                default:
+                    break;
+            }
+        } catch ( HeadlessException | NumberFormatException | SQLException e) {
+            JOptionPane.showMessageDialog(null, "Ocurrio un error: " + e.getMessage());
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -348,6 +482,11 @@ public class AdicionEdicion extends javax.swing.JFrame {
         ButtonAgregar.setText("Agregar");
 
         ButtonEditar.setText("Modificar");
+        ButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonEditarActionPerformed(evt);
+            }
+        });
 
         ButtonEliminar.setText("Eliminar");
         ButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -400,41 +539,53 @@ public class AdicionEdicion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEliminarActionPerformed
-        eliminar();
-    }//GEN-LAST:event_ButtonEliminarActionPerformed
+    private void ButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEditarActionPerformed
+        modificar();
+    }//GEN-LAST:event_ButtonEditarActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void ButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_ButtonEliminarActionPerformed
+        eliminar();
+    }// GEN-LAST:event_ButtonEliminarActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
         seleccion();
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }// GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+        // (optional) ">
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
+         * look and feel.
+         * For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Ni mbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdicionEdicion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionEdicion.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdicionEdicion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionEdicion.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdicionEdicion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionEdicion.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdicionEdicion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AdicionEdicion.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         }
-        //</editor-fold>
+        // </editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
