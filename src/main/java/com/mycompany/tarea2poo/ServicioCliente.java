@@ -289,8 +289,9 @@ public class ServicioCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "ErrorSQL " + e.getMessage());
         }*/
         
-        OrdenTrabajo ot = new OrdenTrabajo(this.CodigoCliente);
+        OrdenTrabajoDialog ot = new OrdenTrabajoDialog(this,true, this.CodigoCliente);
         ot.setVisible(true);
+        
         this.obtenerFacturas();
 
     }// GEN-LAST:event_jButtonCrearInteraccionActionPerformed
