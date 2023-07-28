@@ -13,7 +13,7 @@ public class Tarea2POO {
 
     public static void main(String[] args) {
         
-        ServicioCliente pantalla = new ServicioCliente();
+        Landing pantalla = new Landing();
         pantalla.setVisible(true);
     }
 }
