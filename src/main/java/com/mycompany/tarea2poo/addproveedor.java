@@ -104,6 +104,7 @@ public class addproveedor extends javax.swing.JDialog {
           PreparedStatement pst = cnn.prepareStatement(sql);
           pst.setString(1, name.getText());
           pst.executeUpdate();
+          this.dispose();
         } 
         catch (Exception e)
         {

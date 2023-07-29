@@ -22,6 +22,7 @@ public class addinventario extends javax.swing.JDialog {
     private int idproveedor;
     public addinventario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        connect = new Conexion();
         initComponents();
         update_provider();
     }

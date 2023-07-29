@@ -155,6 +155,7 @@ public class addempleado extends javax.swing.JDialog {
             pst.setString(2, position.getText());
             pst.setInt(3, number);
             pst.executeUpdate();
+            this.dispose();
         }
         catch (Exception e)
         {

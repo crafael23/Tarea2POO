@@ -137,6 +137,7 @@ public class addservicio extends javax.swing.JDialog {
           pst.setString(1, name.getText());
           pst.setInt(2, number);
           pst.executeUpdate();
+          this.dispose();
         } 
         catch (Exception e)
         {

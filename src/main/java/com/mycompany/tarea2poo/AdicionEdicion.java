@@ -293,7 +293,7 @@ public class AdicionEdicion extends javax.swing.JFrame {
                 mostrarOrdenDeTrabajo();
                 break;
             case "Proveedor":        
-                sql = "Delete from probeedor where CodigoProveedor = '" + valor + "'";
+                sql = "Delete from proveedor where CodigoProveedor = '" + valor + "'";
                 stm = conn.prepareStatement(sql);
                 stm.executeUpdate(sql);
                 mostrarOrdenDeTrabajo();
@@ -423,30 +423,40 @@ public class AdicionEdicion extends javax.swing.JFrame {
                 cliente.setTitle("Clientes");
                 cliente.setModal(true);
                 cliente.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                cliente.setVisible(true);
+                mostrarClientes();
                 break;
             case "Inventario":
                 addinventario inventario = new addinventario(this, true);
                 inventario.setTitle("Proveedores");
                 inventario.setModal(true);
                 inventario.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                inventario.setVisible(true);
+                mostrarInventario();
                 break;
             case "Proveedor":        
                 addproveedor proveedor = new addproveedor(this, true);
                 proveedor.setTitle("Proveedores");
                 proveedor.setModal(true);
                 proveedor.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                proveedor.setVisible(true);
+                mostrarProveedor();
                 break;
             case "Empleado":
                 addempleado empleado = new addempleado(this, true);
                 empleado.setTitle("Proveedores");
                 empleado.setModal(true);
-                empleado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);                       
+                empleado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); 
+                empleado.setVisible(true);
+                mostrarEmpleado();
                 break;
             case "Servicio":
                 addservicio servicio = new addservicio(this, true);
                 servicio.setTitle("Proveedores");
                 servicio.setModal(true);
                 servicio.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                servicio.setVisible(true);
+                mostrarServicio();
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Ocurrio un problema.");

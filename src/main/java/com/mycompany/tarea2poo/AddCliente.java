@@ -117,6 +117,7 @@ public class AddCliente extends javax.swing.JDialog {
           pst.setString(1, ClientName.getText());
           pst.setInt(2, number);
           pst.executeUpdate();
+          this.dispose();
         } 
         catch (Exception e)
         {
