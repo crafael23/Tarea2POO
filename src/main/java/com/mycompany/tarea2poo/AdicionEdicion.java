@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -346,6 +347,11 @@ public class AdicionEdicion extends javax.swing.JFrame {
         jScrollPane1.setViewportView(Consulta);
 
         ButtonAgregar.setText("Agregar");
+        ButtonAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonAgregarActionPerformed(evt);
+            }
+        });
 
         ButtonEditar.setText("Modificar");
 
@@ -408,6 +414,45 @@ public class AdicionEdicion extends javax.swing.JFrame {
         // TODO add your handling code here:
         seleccion();
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void ButtonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAgregarActionPerformed
+         String seleccion = jComboBox1.getSelectedItem().toString();
+        switch (seleccion) {
+            case "Cliente":
+                AddCliente cliente = new AddCliente(this, true);
+                cliente.setTitle("Clientes");
+                cliente.setModal(true);
+                cliente.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                break;
+            case "Inventario":
+                addinventario inventario = new addinventario(this, true);
+                inventario.setTitle("Proveedores");
+                inventario.setModal(true);
+                inventario.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                break;
+            case "Proveedor":        
+                addproveedor proveedor = new addproveedor(this, true);
+                proveedor.setTitle("Proveedores");
+                proveedor.setModal(true);
+                proveedor.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                break;
+            case "Empleado":
+                addempleado empleado = new addempleado(this, true);
+                empleado.setTitle("Proveedores");
+                empleado.setModal(true);
+                empleado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);                       
+                break;
+            case "Servicio":
+                addservicio servicio = new addservicio(this, true);
+                servicio.setTitle("Proveedores");
+                servicio.setModal(true);
+                servicio.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Ocurrio un problema.");
+                break;
+        }
+    }//GEN-LAST:event_ButtonAgregarActionPerformed
 
     /**
      * @param args the command line arguments
